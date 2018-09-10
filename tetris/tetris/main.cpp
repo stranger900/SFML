@@ -25,6 +25,15 @@ int figures[7][4] =
 	2,3,4,5, //O
 };
 
+bool check()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		if (a[i].x < 0 || a[i].x >= N || a[i].y >= M) return 0;
+		else if (field[a[i].y][a[i].x]) return 0;
+	}
+}
+
 int main()
 {
 	RenderWindow window(VideoMode(300, 500), "Tetris");
@@ -58,11 +67,17 @@ int main()
 				else if (event.key.code == Keyboard::Left) dx = -1;
 				else if (event.key.code == Keyboard::Right) dx = 1;
 		}
-
+		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.05;
+		else delay = 0.3;
 		// -MOVE- //
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 4; ++i) 
+		{
+			b[i] = a[i];
 			a[i].x += dx;
 		}
+		if (!check())
+			for (int i = 0; i < 4; ++i)
+				a[i] = b[i];
 
 		// -ROTATE- //
 		if (rotate)
@@ -75,22 +90,61 @@ int main()
 				a[i].x = point.x - x;
 				a[i].y = point.y + y;
 			}
+			if (!check())
+				for (int i = 0; i < 4; ++i)
+					a[i] = b[i];
+		}
+
+		// -Tick- //
+		if (timer > delay)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				b[i] = a[i];
+				a[i].y += 1;
+			}
+			if (!check())
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					field[b[i].y][b[i].x] = colorNum;
+				}
+				colorNum = 1 + rand() % 7;
+				int n = rand() % 7;
+				for (int i = 0; i < 4; ++i)
+				{
+					a[i].x = figures[n][i] % 2;
+					a[i].y = figures[n][i] / 2;
+				}
+			}
+
+			timer = 0;
 		}
 
 
-
-
-		int n = 3;
+		/*int n = 3;
 		if(a[0].x==0)
 		for (int i = 0; i < 4; i++) {
 			a[i].x = figures[n][i] % 2;
 			a[i].y = figures[n][i] / 2;
-		}
+		}*/
 
 		dx = 0; rotate = 0;
 
-		window.clear(Color::Cyan);
+		// -Draw- //
+		window.clear(Color::Red);
+
+		for (int i = 0; i < M; i++)
+			for (int j = 0; j < N; j++)
+			{
+				if (field[i][j] == 0) continue;
+				sprite.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
+				sprite.setPosition(j * 18, i * 18);
+				window.draw(sprite);
+
+			}
 		for (int i = 0; i < 4; i++) {
+			sprite.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
 			sprite.setPosition(a[i].x * 18, a[i].y * 18);
 			window.draw(sprite);
 		}

@@ -1,3 +1,8 @@
 ﻿  main.cpp
-e:\myprojects\smlf\tetris\tetris\main.cpp(87): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+e:\myprojects\smlf\tetris\tetris\main.cpp(48): warning C4305: инициализация: усечение из "double" в "float"
+e:\myprojects\smlf\tetris\tetris\main.cpp(70): warning C4305: =: усечение из "double" в "float"
+e:\myprojects\smlf\tetris\tetris\main.cpp(71): warning C4305: =: усечение из "double" в "float"
+e:\myprojects\smlf\tetris\tetris\main.cpp(142): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+e:\myprojects\smlf\tetris\tetris\main.cpp(148): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+e:\myprojects\smlf\tetris\tetris\main.cpp(35): warning C4715: check: значение возвращается не при всех путях выполнения
   tetris.vcxproj -> E:\MyProjects\smlf\tetris\Debug\tetris.exe
